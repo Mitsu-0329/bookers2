@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  #nameが存在しているかを確認するバリデーション
+  validates :name, length: { minimum: 2 }
   
   def get_profile_image(width, height)
     unless profile_image.attached?
