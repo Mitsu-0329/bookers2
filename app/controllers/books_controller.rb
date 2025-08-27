@@ -10,10 +10,19 @@ class BooksController < ApplicationController
 
     @book.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
-    @book.save
-    # 4. トップ画面へリダイレクト
-    redirect_to book_path(@book.id)
+    if @book.save
+      flash[:notice] = "You have created book successfully."
+      redirect_to book_path(@book.id)
+    else
+      @books = Book.all
+      @user = current_user
+      render :index
+    end
   end
+
+
+
+
 
   def index
     @book = Book.new
@@ -29,7 +38,26 @@ class BooksController < ApplicationController
   end
 
   def edit
+    @book = Book.find(params[:id])
   end
+
+  def update
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      flash[:notice] = "You have updated book successfully."
+      redirect_to book_path(@book.id)
+    else
+      @books = Book.all
+      render :edit
+    end  
+  end  
+
+  def destroy
+    book = Book.find(params[:id])  # データ（レコード）を1件取得
+    book.destroy  # データ（レコード）を削除
+    redirect_to '/books'  # 投稿一覧画面へリダイレクト 
+  end
+
 
   private
  # ストロングパラメータ
