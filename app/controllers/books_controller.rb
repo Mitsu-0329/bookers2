@@ -31,20 +31,20 @@ class BooksController < ApplicationController
   end
 
   def show
-    @user = current_user
+
     @books = Book.all
     @book = Book.new
     @book_show = Book.find(params[:id])
+    @user = @book_show.user
   end
 
   def edit
     # ここから追加
-    user = User.find(params[:id])
-    unless user.id == current_user.id
+    @book = Book.find(params[:id])
+    unless @book.user.id == current_user.id
       redirect_to books_path
     end
     # ここまで追加
-    @book = Book.find(params[:id])
   end
 
   def update

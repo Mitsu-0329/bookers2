@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     # ここから追加
     user = User.find(params[:id])
     unless user.id == current_user.id
-      redirect_to users_path
+      redirect_to user_path(current_user.id)
     end
     # ここまで追加
     @user = User.find(params[:id])
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :profile_image)
+    params.require(:user).permit(:name, :profile_image, :introduction)
   end
 
 end
