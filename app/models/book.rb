@@ -16,5 +16,17 @@ class Book < ApplicationRecord
     end
   end
 
+  def self.search_for(content, method)
+    content = '' if content.nil?  # contentがnilの場合は空文字列に変更
+    if method == 'perfect'
+      Book.where(title: content)
+    elsif method == 'forward'
+      Book.where('title LIKE ?', content+'%')
+    elsif method == 'backward'
+      Book.where('title LIKE ?', '%'+content)
+    else
+      Book.where('title LIKE ?', '%'+content+'%')
+    end
+  end
 
 end

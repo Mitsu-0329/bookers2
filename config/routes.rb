@@ -9,5 +9,6 @@ Rails.application.routes.draw do
 
 
   get '/home/about' => 'homes#about', as: 'about'
+  get '/search', to: 'searches#search'
 
 end
